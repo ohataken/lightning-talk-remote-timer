@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "hyperscript": "^2.0.2",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
   }
 }
