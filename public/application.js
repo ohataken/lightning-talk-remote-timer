@@ -24,6 +24,10 @@
         ].join(':');
       },
 
+      isOver: function () {
+        return this.targetTime < new Date();
+      },
+
     };
 
     return constructor;
@@ -48,7 +52,9 @@
       },
 
       displayTime: function () {
-        if (this.state === 'RUNNING') {
+        if (this.state === 'RUNNING' && this.timer.isOver()) {
+          return '00:00:00';
+        } else if (this.state === 'RUNNING') {
           return this.timer.calcElapedTime(this.timer.targetTime - new Date());
         } else {
           return '00:00:00';
