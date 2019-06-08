@@ -5,12 +5,6 @@
     };
 
     constructor.prototype = {
-      createOffsetDate: function (msec, seconds, minutes) {
-        return new Date(new Date().getTime()
-          + msec
-          + seconds * 1000
-          + minutes * 1000 * 60);
-      },
 
       calcElapedTime: function (elapsed) {
         return [
