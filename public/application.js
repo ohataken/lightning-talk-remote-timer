@@ -12,10 +12,6 @@
           + minutes * 1000 * 60);
       },
 
-      setTargetTimeByOffset: function (msec, seconds, minutes) {
-        this.targetTime = this.createOffsetDate(msec, seconds, minutes);
-      },
-
       calcElapedTime: function (elapsed) {
         return [
           ('0' + Math.floor(elapsed / 1000 / 60 % 60)).slice(-2),
@@ -63,10 +59,8 @@
 
       reset: function (msec, seconds, minutes) {
         if (this.state === 'READY') {
-          this.timer.setTargetTimeByOffset(msec, seconds, minutes);
         } else {
           this.state = 'READY';
-          this.timer.setTargetTimeByOffset(msec, seconds, minutes);
         }
       },
 
