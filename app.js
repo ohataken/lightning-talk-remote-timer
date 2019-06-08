@@ -17,20 +17,28 @@ app.get('/', (req, res) => {
 });
 
 app.get('/rooms/:roomId', (req, res) => {
-  res.send(h('html',
+  res.send(h('html', { lang: 'en' },
     h('head',
       h('title', 'Lightning Talk Timer'),
+      h('meta', { charset: 'utf-8' }),
+      h('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }),
+      h('link', {
+        rel: 'stylesheet',
+        integrity: 'sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T',
+        crossorigin: 'anonymous',
+        href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+      }),
       h('script', { type: 'text/javascript', src: '/socket.io/socket.io.js' }),
       h('script', { type: 'text/javascript', src: '/application.js' })),
     h('body',
       h('script', { type: 'text/javascript' }),
-      h('div#header',
-        h('h1', 'Timer')),
-      h('div#timer', { 'data-room-id': 'wE6zWkQc', 'data-room-token': req.query.token }, 'init'),
-      h('div#control',
-        h('input#minutes', { type: 'number', min: '0', max: '60' }),
-        h('input#reset', { type: 'submit', value: 'Reset' }),
-        h('input#start', { type: 'submit', value: 'Start' })))).outerHTML);
+      h('div.container-fluid.mt-3',
+        h('div.progress',
+          h('div#progress.progress-bar.progress-bar-striped', { style: 'width: 100%' })),
+        h('h1#timer.display-3', { 'data-room-id': 'wE6zWkQc', 'data-room-token': req.query.token, style: 'text-align: center; font-size: 18vw; font-family: Monaco;' }, '00:00:00'),
+        h('button#start.btn.btn-success.btn-lg.btn-block', 'Start'),
+        h('button#reset.btn.btn-danger.btn-lg.btn-block', 'Reset'),
+      ))).outerHTML);
 });
 
 io.on('connection', (socket) => {

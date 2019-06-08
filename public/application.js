@@ -100,6 +100,14 @@
         }
       },
 
+      renderProgress: function () {
+        if (this.state === 'READY') {
+          this.elProgress.style.cssText = 'width: 100%;';
+        } else if (this.state === 'RUNNING') {
+          this.elProgress.style.cssText = 'width:' + this.timer.getProgressInPercentageAt(new Date()) + ';';
+        }
+      },
+
       reset: function (msec, seconds, minutes) {
         if (this.state === 'READY') {
           this.elStart.classList.remove('disabled');
@@ -147,6 +155,7 @@
         setInterval(() => {
           this.elDisplay.innerHTML = this.displayTime();
           this.timer.getProgressAt(new Date());
+          this.renderProgress();
         }, 64);
       },
     };
