@@ -170,6 +170,7 @@
         options.minutes,
         options.seconds,
         options.milliseconds);
+      this.notifier = new IdempotentNotifier();
     };
 
     constructor.prototype = {
@@ -246,6 +247,25 @@
           this.elDisplay.innerHTML = this.displayTime();
           this.timer.getProgressAt(new Date());
           this.renderProgress();
+
+          const now = new Date();
+
+          if (false) {
+          } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * -1, 1000 * 0)) {
+            this.notifier.notifyIdempotently(0, 'it\'s over');
+          } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 0, 1000 * 10)) {
+            this.notifier.notifyIdempotently(10, '10 seconds.');
+          } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 10, 1000 * 30)) {
+            this.notifier.notifyIdempotently(30, '30 seconds.');
+          } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 30, 1000 * 60)) {
+            this.notifier.notifyIdempotently(60, '1 minute.');
+          } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 60, 1000 * 60 * 2)) {
+            this.notifier.notifyIdempotently(60 * 2, '2 minutes.');
+          } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 60 * 2, 1000 * 60 * 3)) {
+            this.notifier.notifyIdempotently(60 * 3, '3 minutes.');
+          } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 60 * 3, 1000 * 60 * 4)) {
+            this.notifier.notifyIdempotently(60 * 4, '4 minutes.');
+          }
         }, 64);
       },
     };
@@ -270,5 +290,7 @@
 
     timerView.bind();
     timerView.joinRoom();
+
+    timerView.notifier.requestPermission();
   });
 })();
