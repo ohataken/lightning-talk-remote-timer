@@ -18,10 +18,15 @@ app.get('/', (req, res) => {
 
 app.get('/rooms/:roomId', (req, res) => {
   res.send(h('html', { lang: 'en' },
-    h('head',
+    h('head', { prefix: 'og: http://ogp.me/ns#' },
       h('title', 'Lightning Talk Timer'),
       h('meta', { charset: 'utf-8' }),
       h('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }),
+      h('meta', { property: 'og:url', content: 'https://lightning-talk-remote-timer.herokuapp.com/rooms/' + req.params.roomId }),
+      h('meta', { property: 'og:type', content: 'article' }),
+      h('meta', { property: 'og:title', content: req.params.roomId }),
+      // h('meta', { property: 'og:description', content: '' }),
+      h('meta', { property: 'og:site_name', content: 'Lightning Talk Remote Timer' }),
       h('link', {
         rel: 'stylesheet',
         integrity: 'sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T',
