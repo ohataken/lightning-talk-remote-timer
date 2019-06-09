@@ -1,4 +1,49 @@
 (() => {
+  const IdempotentNotifier = (() => {
+    const constructor = function () {
+      this.log = [];
+    }
+
+    constructor.prototype = {
+      requestPermission: function () {
+        if ('Notification' in window) {
+          if (Notification.permission !== 'granted') {
+            Promise.resolve().then(() => {
+              return new Promise((resolve) => {
+                return Notification.requestPermission(() => {
+                  return resolve();
+                });
+              });
+            }).then(() => {
+              this.createNotification('Thank you.');
+            });
+          }
+        }
+      },
+
+      createNotification: function (message) {
+        if ('Notification' in window) {
+          if (Notification.permission === 'granted') {
+            return new Notification(message);
+          }
+        }
+      },
+
+      notifyIdempotently: function (id, message) {
+        if (!this.log.includes(id)) {
+          this.log.push(id);
+          this.createNotification(message);
+        }
+      },
+
+      flushLog: function () {
+        this.log = [];
+      },
+    };
+
+    return constructor;
+  })();
+
   const Timer = (() => {
     const constructor = function (minutes, seconds, milliseconds) {
       this.targetTime = new Date();
