@@ -1,10 +1,10 @@
 (() => {
   const Timer = (() => {
-    const constructor = function () {
+    const constructor = function (minutes, seconds, milliseconds) {
       this.targetTime = new Date();
-      this.minutes = 5;
-      this.seconds = 0;
-      this.milliseconds = 0;
+      this.minutes = minutes || 0;
+      this.seconds = seconds || 0;
+      this.milliseconds = milliseconds || 0;
     };
 
     constructor.prototype = {
