@@ -148,13 +148,15 @@
         }
       },
 
-      reset: function (msec, seconds, minutes) {
+      reset: function () {
         if (this.state === 'READY') {
           this.elStart.classList.remove('disabled');
+          this.notifier.flushLog();
         } else {
           this.elProgress.classList.remove('progress-bar-animated');
           this.state = 'READY';
           this.elStart.classList.remove('disabled');
+          this.notifier.flushLog();
         }
       },
 
@@ -175,7 +177,7 @@
 
       bind: function () {
         this.socket.on('reset', (data) => {
-          this.reset(0, 0, 5);
+          this.state = 'READY';
         });
 
         this.socket.on('start', (data) => {
@@ -183,7 +185,7 @@
         });
 
         this.elReset.addEventListener('click', () => {
-          this.reset(0, 0, 5);
+          this.reset();
           this.socket.emit('reset', { roomId: this.roomId, roomToken: this.roomToken });
         });
 
