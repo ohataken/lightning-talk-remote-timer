@@ -38,6 +38,10 @@
         }
       },
 
+      getDuration: function () {
+        return this.getMilliseconds(this.minutes, this.seconds, this.milliseconds);
+      },
+
       getProgressInPercentageAt: function (date) {
         return this.getProgressAt(date) * 100 + '%';
       },
