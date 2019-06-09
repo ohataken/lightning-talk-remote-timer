@@ -121,7 +121,10 @@
       this.elReset = options.elReset;
       this.elStart = options.elStart;
       this.elProgress = options.elProgress;
-      this.timer = new Timer();
+      this.timer = new Timer(
+        options.minutes,
+        options.seconds,
+        options.milliseconds);
     };
 
     constructor.prototype = {
@@ -215,6 +218,9 @@
       elReset: document.querySelector('#reset'),
       elStart: document.querySelector('#start'),
       elProgress: document.querySelector('#progress'),
+      minutes: 5,
+      seconds: 0,
+      milliseconds: 0,
     });
 
     timerView.bind();
