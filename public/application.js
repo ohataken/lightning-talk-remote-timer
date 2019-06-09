@@ -23,11 +23,7 @@
       },
 
       getProgressAt: function (date) {
-        const duration = this.minutes * 1000 * 60
-          + this.seconds * 1000
-          + this.milliseconds;
-
-        const progress = (this.targetTime.getTime() - date.getTime()) / duration;
+        const progress = (this.targetTime.getTime() - date.getTime()) / this.getDuration();
 
         if (this.isOver()) {
           return 0;
