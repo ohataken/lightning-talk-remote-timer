@@ -34,12 +34,42 @@
         }
       },
 
+      getMilliseconds: function (minutes, seconds, milliseconds) {
+        return minutes * 1000 * 60
+          + seconds * 1000
+          + milliseconds;
+      },
+
       getDuration: function () {
         return this.getMilliseconds(this.minutes, this.seconds, this.milliseconds);
       },
 
       getProgressInPercentageAt: function (date) {
         return this.getProgressAt(date) * 100 + '%';
+      },
+
+      getElapsedTimeAt: function (date) {
+        return this.targetTime - date;
+      },
+
+      getTargetTime: function () {
+        return this.targetTime;
+      },
+
+      getStartTimeByRemainingTime: function () {
+        if (arguments.length === 1) {
+          const milliseconds = arguments[0];
+          return new Date(this.targetTime.getTime() - milliseconds);
+        } else if (arguments.length === 3) {
+          const minutes = arguments[0];
+          const seconds = arguments[1];
+          const milliseconds = arguments[2];
+          return new Date(this.targetTime.getTime() - this.getMilliseconds(minutes, seconds, milliseconds));
+        }
+      },
+
+      getStartTime: function () {
+        return this.getStartTimeByRemainingTime(this.minutes, this.seconds, this.milliseconds);
       },
 
       calcElapedTime: function (elapsed) {
@@ -64,6 +94,16 @@
 
       isOver: function () {
         return this.targetTime < new Date();
+      },
+
+      isRemainingTimeInRangeAt(date, a, b) {
+        const elapsed = this.getElapsedTimeAt(date);
+        return a < elapsed && elapsed < b;
+      },
+
+      isRemainingTimeInRangeAtAndLessThan(date, a, b) {
+        const start = this.getStartTime();
+        return this.isRemainingTimeInRangeAt(date, a, b) && this.getStartTime() < this.getStartTimeByRemainingTime(b);
       },
 
     };
