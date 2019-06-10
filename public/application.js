@@ -121,7 +121,7 @@
         return [
           ('0' + Math.floor(minutes)).slice(-2),
           ('0' + Math.floor(seconds)).slice(-2),
-          ('0' + Math.floor(milliseconds)).slice(-2),
+          // ('0' + Math.floor(milliseconds)).slice(-2),
         ].join(':');
       },
 
