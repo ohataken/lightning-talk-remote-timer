@@ -147,7 +147,6 @@
       },
 
       isRemainingTimeInRangeAtAndLessThan(date, a, b) {
-        const start = this.getStartTime();
         return this.isRemainingTimeInRangeAt(date, a, b) && this.getStartTime() < this.getStartTimeByRemainingTime(b);
       },
 
