@@ -125,14 +125,6 @@
         ].join(':');
       },
 
-      calcElapedTime: function (elapsed) {
-        return [
-          ('0' + Math.floor(elapsed / 1000 / 60 % 60)).slice(-2),
-          ('0' + Math.floor(elapsed / 1000 % 60)).slice(-2),
-          ('0' + Math.floor(elapsed % 60)).slice(-2),
-        ].join(':');
-      },
-
       renderRemainingTime: function () {
         return this.renderTime(
           this.minutes,
