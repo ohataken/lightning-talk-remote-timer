@@ -59,12 +59,16 @@
         this.milliseconds = msec;
       },
 
-      setTargetTimeAt: function (date) {
-        this.targetTime = new Date(date.getTime()
+      createTargetTimeAt: function (date) {
+        return new Date(date.getTime()
           + this.minutes * 1000 * 60
           + this.seconds * 1000
-          + this.milliseconds
-        );
+          + this.milliseconds);
+      },
+
+      setTargetTimeAt: function (date) {
+        this.targetTime = this.createTargetTimeAt(date);
+        return this.targetTime;
       },
 
       getProgressAt: function (date) {
