@@ -117,6 +117,14 @@
         return this.getStartTimeByRemainingTime(this.minutes, this.seconds, this.milliseconds);
       },
 
+      renderTime: function (minutes, seconds, milliseconds) {
+        return [
+          ('0' + Math.floor(minutes)).slice(-2),
+          ('0' + Math.floor(seconds)).slice(-2),
+          ('0' + Math.floor(milliseconds)).slice(-2),
+        ].join(':');
+      },
+
       calcElapedTime: function (elapsed) {
         return [
           ('0' + Math.floor(elapsed / 1000 / 60 % 60)).slice(-2),
@@ -126,15 +134,18 @@
       },
 
       renderRemainingTime: function () {
-        return [
-          ('0' + this.minutes).slice(-2),
-          ('0' + this.seconds).slice(-2),
-          ('0' + this.milliseconds).slice(-2),
-        ].join(':');
+        return this.renderTime(
+          this.minutes,
+          this.seconds,
+          this.milliseconds);
       },
 
       renderRemainingTimeAt: function (date) {
-        return this.calcElapedTime(this.targetTime - date);
+        const elapsed = this.targetTime - date;
+        return this.renderTime(
+          elapsed / 1000 / 60 % 60,
+          elapsed / 1000 % 60,
+          elapsed % 60);
       },
 
       isOver: function () {
