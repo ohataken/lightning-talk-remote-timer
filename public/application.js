@@ -183,7 +183,7 @@
 
       displayTime: function () {
         if (this.state === 'RUNNING' && this.timer.isOver()) {
-          return '00:00:00';
+          return this.timer.renderTime(0, 0, 0);
         } else if (this.state === 'RUNNING') {
           return this.timer.renderRemainingTimeAt(new Date());
         } else {
