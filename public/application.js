@@ -21,18 +21,18 @@
         }
       },
 
-      createNotification: function (message) {
+      createNotification: function (message, options) {
         if ('Notification' in window) {
           if (Notification.permission === 'granted') {
-            return new Notification(message);
+            return new Notification(message, options);
           }
         }
       },
 
-      notifyIdempotently: function (id, message) {
+      notifyIdempotently: function (id, message, options) {
         if (!this.log.includes(id)) {
           this.log.push(id);
-          this.createNotification(message);
+          this.createNotification(message, options);
         }
       },
 
@@ -252,19 +252,19 @@
 
           if (false) {
           } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * -1, 1000 * 0)) {
-            this.notifier.notifyIdempotently(0, 'it\'s over');
+            this.notifier.notifyIdempotently(0, '終了しました', { body: 'LT Remote Timer' });
           } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 0, 1000 * 10)) {
-            this.notifier.notifyIdempotently(10, '10 seconds.');
+            this.notifier.notifyIdempotently(10, '残り10秒です', { body: 'LT Remote Timer' });
           } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 10, 1000 * 30)) {
-            this.notifier.notifyIdempotently(30, '30 seconds.');
+            this.notifier.notifyIdempotently(30, '残り30秒です', { body: 'LT Remote Timer' });
           } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 30, 1000 * 60)) {
-            this.notifier.notifyIdempotently(60, '1 minute.');
+            this.notifier.notifyIdempotently(60, '残り1分です', { body: 'LT Remote Timer' });
           } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 60, 1000 * 60 * 2)) {
-            this.notifier.notifyIdempotently(60 * 2, '2 minutes.');
+            this.notifier.notifyIdempotently(60 * 2, '残り2分です', { body: 'LT Remote Timer' });
           } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 60 * 2, 1000 * 60 * 3)) {
-            this.notifier.notifyIdempotently(60 * 3, '3 minutes.');
+            this.notifier.notifyIdempotently(60 * 3, '残り3分です', { body: 'LT Remote Timer' });
           } else if (this.state === 'RUNNING' && this.timer.isRemainingTimeInRangeAtAndLessThan(now, 1000 * 60 * 3, 1000 * 60 * 4)) {
-            this.notifier.notifyIdempotently(60 * 4, '4 minutes.');
+            this.notifier.notifyIdempotently(60 * 4, '残り4分です', { body: 'LT Remote Timer' });
           }
         }, 64);
       },
