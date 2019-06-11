@@ -45,8 +45,8 @@
   })();
 
   const Timer = (() => {
-    const constructor = function (minutes, seconds, milliseconds) {
-      this.targetTime = new Date();
+    const constructor = function (minutes, seconds, milliseconds, targetTime) {
+      this.targetTime = targetTime || new Date();
       this.minutes = minutes || 0;
       this.seconds = seconds || 0;
       this.milliseconds = milliseconds || 0;
@@ -175,7 +175,8 @@
       this.timer = new Timer(
         options.minutes,
         options.seconds,
-        options.milliseconds);
+        options.milliseconds,
+        options.targetTime);
       this.notifier = new IdempotentNotifier();
     };
 
@@ -292,6 +293,7 @@
       minutes: 5,
       seconds: 0,
       milliseconds: 0,
+      targetTime: new Date(parseInt(elTimer.attributes['data-room-target-time'].value)) || new Date(),
     });
 
     timerView.bind();
