@@ -217,12 +217,20 @@
       },
 
       start: function () {
-        if (this.state === 'READY') {
-          this.state = 'RUNNING';
-          this.timer.setTargetTimeAt(new Date());
-          this.elProgress.classList.add('progress-bar-animated');
-          this.elStart.classList.add('disabled');
-        }
+        this.state = 'RUNNING';
+        this.elProgress.classList.add('progress-bar-animated');
+        this.elStart.classList.add('disabled');
+      },
+
+      startAndSetTargetTime(date) {
+        this.start();
+        return this.timer.setTargetTimeAt(date);
+      },
+
+      startByTargetTime: function () {
+        this.state = 'RUNNING';
+        this.elProgress.classList.add('progress-bar-animated');
+        this.elStart.classList.add('disabled');
       },
 
       setInterval: function (callback, mseconds) {
@@ -237,7 +245,7 @@
         });
 
         this.socket.on('start', (data) => {
-          this.start();
+          this.startAndSetTargetTime(new Date());
         });
 
         this.elReset.addEventListener('click', () => {
@@ -246,8 +254,8 @@
         });
 
         this.elStart.addEventListener('click', () => {
-          this.start();
-          this.socket.emit('start', { roomId: this.roomId, roomToken: this.roomToken });
+          const date = this.startAndSetTargetTime(new Date());
+          this.socket.emit('start', { roomId: this.roomId, roomToken: this.roomToken, targetTime: date.getTime(), });
         });
 
         setInterval(() => {
@@ -293,11 +301,17 @@
       minutes: 5,
       seconds: 0,
       milliseconds: 0,
+      state: elTimer.attributes['data-room-state'].value || 'READY',
       targetTime: new Date(parseInt(elTimer.attributes['data-room-target-time'].value)) || new Date(),
     });
 
     timerView.bind();
     timerView.joinRoom();
+
+    if (timerView.state === 'RUNNING') {
+      timerView.start();
+      console.log(timerView.timer.targetTime);
+    }
 
     timerView.notifier.requestPermission();
   });
