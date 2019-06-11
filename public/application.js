@@ -165,7 +165,7 @@
   const TimerView = (() => {
     const constructor = function (options) {
       this.roomId = options.roomId;
-      this.token = options.roomToken;
+      this.roomToken = options.roomToken;
       this.state = options.state || 'READY';
       this.socket = io();
       this.elDisplay = options.elDisplay;
@@ -183,7 +183,7 @@
     constructor.prototype = {
 
       joinRoom: function () {
-        this.socket.emit('joinroom', { roomId: this.roomId, roomToken: this.token });
+        this.socket.emit('joinroom', { roomId: this.roomId, roomToken: this.roomToken });
       },
 
       displayTime: function () {
