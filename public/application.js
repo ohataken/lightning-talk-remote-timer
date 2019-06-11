@@ -249,13 +249,17 @@
         });
 
         this.elReset.addEventListener('click', () => {
-          this.reset();
-          this.socket.emit('reset', { roomId: this.roomId, roomToken: this.roomToken });
+          if (this.roomToken) {
+            this.reset();
+            this.socket.emit('reset', { roomId: this.roomId, roomToken: this.roomToken });
+          }
         });
 
         this.elStart.addEventListener('click', () => {
-          const date = this.startAndSetTargetTime(new Date());
-          this.socket.emit('start', { roomId: this.roomId, roomToken: this.roomToken, targetTime: date.getTime(), });
+          if (this.roomToken && this.state === 'READY') {
+            const date = this.startAndSetTargetTime(new Date());
+            this.socket.emit('start', { roomId: this.roomId, roomToken: this.roomToken, targetTime: date.getTime(), });
+          }
         });
 
         setInterval(() => {

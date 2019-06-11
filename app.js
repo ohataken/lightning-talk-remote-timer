@@ -65,7 +65,7 @@ app.get('/rooms/:roomId', async (req, res) => {
       h('div.container-fluid.mt-3',
         h('div.progress',
           h('div#progress.progress-bar.progress-bar-striped', { style: 'width: 100%' })),
-        h('h1#timer.display-3', { 'data-room-id': req.params.roomId, 'data-room-token': req.query.token, 'data-room-state': room.state, 'data-room-target-time': room.targetTime, style: 'text-align: center; font-size: 26vw; font-family: Monaco;' }, '00:00'),
+        h('h1#timer.display-3', { 'data-room-id': req.params.roomId, 'data-room-token': req.query.token || '', 'data-room-state': room.state, 'data-room-target-time': room.targetTime, style: 'text-align: center; font-size: 26vw; font-family: Monaco;' }, '00:00'),
         h('button#start.btn.btn-success.btn-lg.btn-block', 'Start'),
         h('button#reset.btn.btn-danger.btn-lg.btn-block', 'Reset'),
       ))).outerHTML);
