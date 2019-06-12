@@ -13,9 +13,7 @@ app.get('/', (req, res) => {
   res.send(h('html',
     h('head'),
     h('body',
-      h('ol',
-        h('li',
-          h('a', { href: '/rooms/kkkk' }, 'kkkk'))))).outerHTML);
+      h('a', { href: '/rooms/new' }, 'create new room.'))).outerHTML);
 });
 
 app.get('/rooms/new', (req, res) => {
@@ -51,15 +49,18 @@ app.get('/rooms/:roomId', async (req, res) => {
       }),
       h('script', { type: 'text/javascript', src: '/socket.io/socket.io.js' }),
       h('script', { type: 'text/javascript', src: '/application.js' })),
-    h('body',
+    h('body.d-flex.flex-column.h-100',
       h('script', { type: 'text/javascript' }),
-      h('div.container-fluid.mt-3',
-        h('div.progress',
-          h('div#progress.progress-bar.progress-bar-striped', { style: 'width: 100%' })),
-        h('h1#timer.display-3', { 'data-room-id': room.key, 'data-room-token': req.query.token || '', 'data-room-state': room.state, 'data-room-target-time': room.targetTime, style: 'text-align: center; font-size: 26vw; font-family: Monaco;' }, '00:00'),
-        h('button#start.btn.btn-success.btn-lg.btn-block', 'Start'),
-        h('button#reset.btn.btn-danger.btn-lg.btn-block', 'Reset'),
-      ))).outerHTML);
+      h('.main',
+        h('div.container-fluid.mt-3',
+          h('div.progress',
+            h('div#progress.progress-bar.progress-bar-striped', { style: 'width: 100%' })),
+          h('h1#timer.display-3', { 'data-room-id': room.key, 'data-room-token': req.query.token || '', 'data-room-state': room.state, 'data-room-target-time': room.targetTime, style: 'text-align: center; font-size: 28vw; font-family: Monaco;' }, '00:00'))),
+      h('.footer.mt-auto.py-3',
+        h('div.container-fluid.mt-3',
+          h('button#start.btn.btn-success.btn-lg.btn-block', 'Start'),
+          h('button#reset.btn.btn-danger.btn-lg.btn-block', 'Reset')
+        )))).outerHTML);
 });
 
 io.on('connection', (socket) => {
