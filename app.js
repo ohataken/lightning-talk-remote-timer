@@ -4,8 +4,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const h = require('hyperscript');
 const crypto = require('crypto');
-const Redis = require('ioredis');
-const redis = new Redis(process.env.REDIS_URL);
+const Room = require('./room');
 
 app.use(express.static('public'));
 app.use('/socket.io', express.static('node_modules/socket.io-client/dist'));
@@ -20,30 +19,22 @@ app.get('/', (req, res) => {
 });
 
 app.get('/rooms/new', (req, res) => {
-  const id = crypto.randomBytes(16).toString('hex');
-  const room = {
+  const room = new Room({
+    key: crypto.randomBytes(16).toString('hex'),
     token: crypto.randomBytes(16).toString('hex'),
     state: 'READY',
     targetTime: new Date().getTime(),
-  };
+  });
 
   Promise.resolve().then(() => {
-    return new Promise((resolve, reject) => {
-      return redis.hmset(id, room, (err, result) => {
-        return err ? reject(err) : resolve(result);
-      });
-    });
+    return room.save();
   }).then(() => {
-    res.redirect('/rooms/' + id + '?token=' + room.token);
+    res.redirect('/rooms/' + room.key + '?token=' + room.token);
   });
 });
 
 app.get('/rooms/:roomId', async (req, res) => {
-  const room = await new Promise((resolve, reject) => {
-    return redis.hgetall(req.params.roomId, (err, result) => {
-      return err ? reject(err) : resolve(result);
-    });
-  });
+  const room = await Room.find(req.params.roomId);
 
   res.send(h('html', { lang: 'en' },
     h('head', { prefix: 'og: http://ogp.me/ns#' },
@@ -65,7 +56,7 @@ app.get('/rooms/:roomId', async (req, res) => {
       h('div.container-fluid.mt-3',
         h('div.progress',
           h('div#progress.progress-bar.progress-bar-striped', { style: 'width: 100%' })),
-        h('h1#timer.display-3', { 'data-room-id': req.params.roomId, 'data-room-token': req.query.token || '', 'data-room-state': room.state, 'data-room-target-time': room.targetTime, style: 'text-align: center; font-size: 26vw; font-family: Monaco;' }, '00:00'),
+        h('h1#timer.display-3', { 'data-room-id': room.key, 'data-room-token': req.query.token || '', 'data-room-state': room.state, 'data-room-target-time': room.targetTime, style: 'text-align: center; font-size: 26vw; font-family: Monaco;' }, '00:00'),
         h('button#start.btn.btn-success.btn-lg.btn-block', 'Start'),
         h('button#reset.btn.btn-danger.btn-lg.btn-block', 'Reset'),
       ))).outerHTML);
@@ -77,37 +68,21 @@ io.on('connection', (socket) => {
   });
 
   socket.on('reset', async (data) => {
-    const room = await new Promise((resolve, reject) => {
-      return redis.hgetall(data.roomId, (err, result) => {
-        return err ? reject(err) : resolve(result);
-      });
-    });
+    const room = await Room.find(data.roomId);
 
-    await new Promise((resolve, reject) => {
-      return redis.hmset(data.roomId, Object.assign(room, {
-        state: 'READY',
-      }), (err, result) => {
-        return err ? reject(err) : resolve(result);
-      });
+    await room.update({
+      state: 'READY',
     });
 
     socket.to('room-' + data.roomId || '').emit('reset', {});
   });
 
   socket.on('start', async (data) => {
-    const room = await new Promise((resolve, reject) => {
-      return redis.hgetall(data.roomId, (err, result) => {
-        return err ? reject(err) : resolve(result);
-      });
-    });
+    const room = await Room.find(data.roomId);
 
-    await new Promise((resolve, reject) => {
-      return redis.hmset(data.roomId, Object.assign(room, {
-        state: 'RUNNING',
-        targetTime: data.targetTime,
-      }), (err, result) => {
-        return err ? reject(err) : resolve(result);
-      });
+    await room.update({
+      state: 'RUNNING',
+      targetTime: data.targetTime,
     });
 
     socket.to('room-' + data.roomId || '').emit('start', { targetTime: data.targetTime });
