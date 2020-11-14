@@ -54,7 +54,7 @@ app.get('/rooms/:roomId', async (req, res) => {
       h('.main',
         h('div.container-fluid.mt-3',
           h('div.progress',
-            h('div#progress.progress-bar.progress-bar-striped', { style: 'width: 0%' })),
+            h('div#progress.progress-bar.progress-bar-striped', { style: 'width: 100%;' })),
           h('h1#timer.display-3', { 'data-room-id': room.key, 'data-room-token': req.query.token || '', 'data-room-state': room.state, 'data-room-target-time': room.targetTime, style: 'text-align: center; font-size: 36vw; font-family: Menlo;' },
             h('span#minutes', { style: 'letter-spacing: -2vw;' }, '00'),
             h('span#separator', ':', { style: 'margin: auto -6vw auto -4vw' }),

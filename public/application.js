@@ -212,9 +212,9 @@
 
       renderProgress: function () {
         if (this.state === 'READY') {
-          this.elProgress.style.cssText = 'width: 100%;';
+          this.elProgress.style.width = '100%';
         } else if (this.state === 'RUNNING') {
-          this.elProgress.style.cssText = 'width:' + this.timer.getProgressInPercentageAt(new Date()) + ';';
+          this.elProgress.style.width = this.timer.getProgressInPercentageAt(new Date());
         }
       },
 
