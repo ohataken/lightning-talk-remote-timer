@@ -61,8 +61,8 @@ app.get('/rooms/:roomId', async (req, res) => {
             h('span#seconds', { style: 'letter-spacing: -2vw;' }, '00')))),
       h('.footer.mt-auto.py-3',
         h('div.container-fluid.mt-3',
-          h('button#start.btn.btn-success.btn-lg.btn-block', 'Start'),
-          h('button#reset.btn.btn-danger.btn-lg.btn-block', 'Reset')
+          h('button#start.btn.btn-outline-success.btn-lg.btn-block', 'Start'),
+          h('button#reset.btn.btn-outline-danger.btn-lg.btn-block', 'Reset')
         )))).outerHTML);
 });
 
