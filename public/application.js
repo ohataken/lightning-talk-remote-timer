@@ -129,27 +129,12 @@
         return ('0' + Math.floor(number)).slice(-2);
       },
 
-      renderTime: function (minutes, seconds, milliseconds) {
-        return [
-          ('0' + Math.floor(minutes)).slice(-2),
-          ('0' + Math.floor(seconds)).slice(-2),
-          // ('0' + Math.floor(milliseconds)).slice(-2),
-        ].join(':');
-      },
-
       renderRemainingMinutes: function () {
         return this.renderMinutes(this.minutes);
       },
 
       renderRemainingSeconds: function () {
         return this.renderSeconds(this.seconds);
-      },
-
-      renderRemainingTime: function () {
-        return this.renderTime(
-          this.minutes,
-          this.seconds,
-          this.milliseconds);
       },
 
       renderRemainingMinutesAt: function (date) {
@@ -160,14 +145,6 @@
       renderRemainingSecondsAt: function (date) {
         const elapsed = this.targetTime - date;
         return this.renderMinutes(elapsed / 1000 % 60);
-      },
-
-      renderRemainingTimeAt: function (date) {
-        const elapsed = this.targetTime - date;
-        return this.renderTime(
-          elapsed / 1000 / 60 % 60,
-          elapsed / 1000 % 60,
-          elapsed % 60);
       },
 
       isOver: function () {
@@ -194,7 +171,6 @@
       this.roomToken = options.roomToken;
       this.state = options.state || 'READY';
       this.socket = io();
-      this.elDisplay = options.elDisplay;
       this.elMinutesDisplay = options.elMinutesDisplay;
       this.elSecondsDisplay = options.elSecondsDisplay;
       this.elReset = options.elReset;
@@ -231,16 +207,6 @@
           return this.timer.renderRemainingSecondsAt(new Date());
         } else {
           return this.timer.renderRemainingSeconds();
-        }
-      },
-
-      displayTime: function () {
-        if (this.state === 'RUNNING' && this.timer.isOver()) {
-          return this.timer.renderTime(0, 0, 0);
-        } else if (this.state === 'RUNNING') {
-          return this.timer.renderRemainingTimeAt(new Date());
-        } else {
-          return this.timer.renderRemainingTime();
         }
       },
 
@@ -311,7 +277,6 @@
         });
 
         setInterval(() => {
-          this.elDisplay.innerHTML = this.displayTime();
           this.elMinutesDisplay.innerHTML = this.displayMinutes();
           this.elSecondsDisplay.innerHTML = this.displaySeconds();
           this.timer.getProgressAt(new Date());
@@ -348,7 +313,6 @@
     const timerView = new TimerView({
       roomId: elTimer.attributes['data-room-id'].value,
       roomToken: elTimer.attributes['data-room-token'].value,
-      elDisplay: document.querySelector('#timer'),
       elMinutesDisplay: document.querySelector('#timer > #minutes'),
       elSecondsDisplay: document.querySelector('#timer > #seconds'),
       elReset: document.querySelector('#reset'),
