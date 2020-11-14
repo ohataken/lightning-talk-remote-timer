@@ -121,6 +121,14 @@
         return this.getStartTimeByRemainingTime(this.minutes, this.seconds, this.milliseconds);
       },
 
+      renderMinutes: function (number) {
+        return ('0' + Math.floor(number)).slice(-2);
+      },
+
+      renderSeconds: function (number) {
+        return ('0' + Math.floor(number)).slice(-2);
+      },
+
       renderTime: function (minutes, seconds, milliseconds) {
         return [
           ('0' + Math.floor(minutes)).slice(-2),
@@ -129,11 +137,29 @@
         ].join(':');
       },
 
+      renderRemainingMinutes: function () {
+        return this.renderMinutes(this.minutes);
+      },
+
+      renderRemainingSeconds: function () {
+        return this.renderSeconds(this.seconds);
+      },
+
       renderRemainingTime: function () {
         return this.renderTime(
           this.minutes,
           this.seconds,
           this.milliseconds);
+      },
+
+      renderRemainingMinutesAt: function (date) {
+        const elapsed = this.targetTime - date;
+        return this.renderMinutes(elapsed / 1000 / 60 %  60);
+      },
+
+      renderRemainingSecondsAt: function (date) {
+        const elapsed = this.targetTime - date;
+        return this.renderMinutes(elapsed / 1000 % 60);
       },
 
       renderRemainingTimeAt: function (date) {
@@ -169,6 +195,8 @@
       this.state = options.state || 'READY';
       this.socket = io();
       this.elDisplay = options.elDisplay;
+      this.elMinutesDisplay = options.elMinutesDisplay;
+      this.elSecondsDisplay = options.elSecondsDisplay;
       this.elReset = options.elReset;
       this.elStart = options.elStart;
       this.elProgress = options.elProgress;
@@ -184,6 +212,26 @@
 
       joinRoom: function () {
         this.socket.emit('joinroom', { roomId: this.roomId, roomToken: this.roomToken });
+      },
+
+      displayMinutes: function () {
+        if (this.state === 'RUNNING' && this.timer.isOver()) {
+          return this.timer.renderMinutes(0);
+        } else if (this.state === 'RUNNING') {
+          return this.timer.renderRemainingMinutesAt(new Date());
+        } else {
+          return this.timer.renderRemainingMinutes();
+        }
+      },
+
+      displaySeconds: function () {
+        if (this.state === 'RUNNING' && this.timer.isOver()) {
+          return this.timer.renderSeconds(0);
+        } else if (this.state === 'RUNNING') {
+          return this.timer.renderRemainingSecondsAt(new Date());
+        } else {
+          return this.timer.renderRemainingSeconds();
+        }
       },
 
       displayTime: function () {
@@ -264,6 +312,8 @@
 
         setInterval(() => {
           this.elDisplay.innerHTML = this.displayTime();
+          this.elMinutesDisplay.innerHTML = this.displayMinutes();
+          this.elSecondsDisplay.innerHTML = this.displaySeconds();
           this.timer.getProgressAt(new Date());
           this.renderProgress();
 
@@ -299,6 +349,8 @@
       roomId: elTimer.attributes['data-room-id'].value,
       roomToken: elTimer.attributes['data-room-token'].value,
       elDisplay: document.querySelector('#timer'),
+      elMinutesDisplay: document.querySelector('#timer > #minutes'),
+      elSecondsDisplay: document.querySelector('#timer > #seconds'),
       elReset: document.querySelector('#reset'),
       elStart: document.querySelector('#start'),
       elProgress: document.querySelector('#progress'),
