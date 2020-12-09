@@ -63,7 +63,6 @@ app.get('/rooms/:roomId', async (req, res) => {
       h('script', { type: 'text/javascript', src: '/socket.io/socket.io.js' }),
       h('script', { type: 'text/javascript', src: '/application.js' })),
     h('body.d-flex.flex-column.h-100',
-      h('script', { type: 'text/javascript' }),
       h('.main',
         h('div.container-fluid.mt-3',
           h('div.progress', { style: 'height: 4vw;' },
