@@ -10,10 +10,23 @@ app.use(express.static('public'));
 app.use('/socket.io', express.static('node_modules/socket.io-client/dist'));
 
 app.get('/', (req, res) => {
-  res.send(h('html',
-    h('head'),
-    h('body',
-      h('a', { href: '/rooms/new' }, 'create new room.'))).outerHTML);
+  res.send(h('html', { lang: 'en'} ,
+    h('head', { prefix: 'og: http://ogp.me/ns#' },
+      h('title', 'Lightning Talk Timer'),
+      h('meta', { charset: 'utf-8' }),
+      h('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }),
+      h('meta', { name: 'description', content: 'Lightning Talk Remote Timer' }),
+      h('meta', { name: 'twitter:card', content: 'Lightning Talk Remote Timer' }),
+      h('link', {
+        rel: 'stylesheet',
+        integrity: 'sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T',
+        crossorigin: 'anonymous',
+        href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+      })),
+    h('body.d-flex.flex-column.h-100',
+      h('.main',
+          h('div.container-fluid.mt-3', 
+            h('a.btn.btn-outline-primary.btn-lg.btn-block', { href: '/rooms/new' }, 'Create new timer'))))).outerHTML);
 });
 
 app.get('/rooms/new', (req, res) => {
