@@ -334,5 +334,15 @@
     }
 
     timerView.notifier.requestPermission();
+
+    const fullscreen = document.querySelector('#fullscreen');
+
+    fullscreen.addEventListener('click', () => {
+      if (document.body.requestFullscreen) {
+        document.body.requestFullscreen();
+      } else if (document.body.webkitRequestFullScreen) {
+        document.body.webkitRequestFullscreen();
+      }
+    });
   });
 })();
