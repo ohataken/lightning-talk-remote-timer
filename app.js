@@ -61,6 +61,7 @@ app.get('/rooms/:roomId', async (req, res) => {
         href: 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
       }),
       h('script', { type: 'text/javascript', src: '/socket.io/socket.io.js' }),
+      h('script', { type: 'text/javascript', src: 'https://cdnjs.cloudflare.com/ajax/libs/nosleep/0.12.0/NoSleep.min.js' }),
       h('script', { type: 'text/javascript', src: '/application.js' })),
     h('body.d-flex.flex-column.h-100',
       h('.main',

@@ -182,6 +182,7 @@
         options.milliseconds,
         options.targetTime);
       this.notifier = new IdempotentNotifier();
+      this.noSleep = new NoSleep();
     };
 
     constructor.prototype = {
@@ -227,6 +228,7 @@
           this.state = 'READY';
           this.elStart.classList.remove('disabled');
           this.notifier.flushLog();
+          this.noSleep.disable();
         }
       },
 
@@ -234,6 +236,7 @@
         this.state = 'RUNNING';
         this.elProgress.classList.add('progress-bar-animated');
         this.elStart.classList.add('disabled');
+        this.noSleep.enable();
       },
 
       startAndSetTargetTime(date) {
