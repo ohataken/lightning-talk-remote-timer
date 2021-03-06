@@ -122,6 +122,19 @@ app.get('/rooms/:roomId', async (req, res) => {
             h('button#fullscreen.btn.btn-primary.btn-lg', { type: 'button' }, 'Fullscreen')))))).outerHTML);
 });
 
+app.get('/api/rooms/:roomId', async (req, res) => {
+  const room = await Room.find(req.params.roomId);
+
+  res.send(JSON.stringify({
+    id: room.key,
+    state: room.state,
+    targetTime: room.targetTime,
+    minutes: room.minutes,
+    seconds: room.seconds,
+    milliseconds: room.milliseconds,
+  }));
+});
+
 io.on('connection', (socket) => {
   socket.on('joinroom', (data) => {
     socket.join('room-' + data.roomId || '');
