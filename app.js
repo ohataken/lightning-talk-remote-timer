@@ -63,6 +63,18 @@ app.get('/', (req, res) => {
               h('h5.card-title', 'スクリーンセーバーやオートスリープをブロック'),
               h('p.card-text', 'タイマーの動作中に、背景で小さな動画を再生することでスクリーンセーバーやオートスリープを防ぎます。タイマーが表示されなくなる、操作できなくなる、などのトラブルを防ぎます。')))),
 
+        h('.container', 
+          h('.card.my-3', 
+            h('.card-header', '機能 5'),
+            h('.card-body', 
+              h('h5.card-title', 'API による時間設定'),
+              h('p.card-text', 'GET /api/rooms/:roomId'),
+              h('p.card-text', 'タイマーの設定を取得します。 id, state, targetTime, minutes, seconds, milliseconds を含む JSON を返します。'),
+              h('p.card-text', '$ curl https://lightning-talk-remote-timer.herokuapp.com/api/rooms/09abcdef'),
+              h('p.card-text', 'PUT /api/rooms/:roomId'),
+              h('p.card-text', 'タイマーの設定を変更します。リクエストボディには token, minutes, seconds を受け入れます。 token が一致しない場合、操作は無効になります。'),
+              h('p.card-text', '$ curl https://lightning-talk-remote-timer.herokuapp.com/api/rooms/09abcdef -XPUT -d "token=00000000&minutes=3&seconds=0"'),))),
+
         h('.footer.mt-auto.py-3', { style: "background-color: white;" },
           h('div.container',
             h('span', '@ohataken. '),
