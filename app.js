@@ -7,6 +7,8 @@ const crypto = require('crypto');
 const Room = require('./room');
 
 app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/socket.io', express.static('node_modules/socket.io-client/dist'));
 
 app.get('/', (req, res) => {
@@ -132,6 +134,40 @@ app.get('/api/rooms/:roomId', async (req, res) => {
     minutes: room.minutes,
     seconds: room.seconds,
     milliseconds: room.milliseconds,
+  }));
+});
+
+app.put('/api/rooms/:roomId', async (req, res) => {
+  const room = await Room.find(req.params.roomId);
+
+  if (room.token !== req?.body?.token) {
+    return res.send(JSON.stringify({
+      data: {
+      },
+    }));
+  }
+
+  await room.update({
+    minutes: (() => {
+      if (req?.body?.minutes) {
+        const num = parseInt(req?.body?.minutes);
+        return 0 <= num && num <= 99 ? num : room.minutes;
+      } else {
+        return room.minutes;
+      }
+    })(),
+    seconds: (() => {
+      if (req?.body?.seconds) {
+        const num = parseInt(req?.body?.seconds);
+        return 0 <= num && num <= 59 ? num : room.seconds;
+      } else {
+        return room.seconds;
+      }
+    })(),
+  });
+
+  res.send(JSON.stringify({
+    data: room,
   }));
 });
 
