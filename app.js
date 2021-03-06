@@ -4,6 +4,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const h = require('hyperscript');
 const crypto = require('crypto');
+const Redis = require('ioredis');
+const redisPub = new Redis(process.env.REDIS_URL);
 const Room = require('./room');
 
 app.use(express.static('public'));
@@ -178,6 +180,8 @@ app.put('/api/rooms/:roomId', async (req, res) => {
     })(),
   });
 
+  redisPub.publish('timeModified', room.key);
+
   res.send(JSON.stringify({
     data: room,
   }));
@@ -207,6 +211,17 @@ io.on('connection', (socket) => {
     });
 
     socket.to('room-' + data.roomId || '').emit('start', { targetTime: data.targetTime });
+  });
+
+  const redis = new Redis(process.env.REDIS_URL);
+
+  redis.subscribe('timeModified', (err, count) => {
+    redis.on('message', async (channel, message) => {
+      if (channel === 'timeModified') {
+        const room = await Room.find(message);
+        socket.to('room-' + room.key || '').emit('timeModified', { minutes: room.minutes, seconds: room.seconds });
+      }
+    });
   });
 });
 

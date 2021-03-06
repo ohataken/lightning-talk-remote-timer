@@ -265,6 +265,12 @@
           this.startAndSetTargetTime(new Date());
         });
 
+        this.socket.on('timeModified', (data) => {
+          this.timer.setRemainingTime(data.minutes, data.seconds, 0);
+          this.elMinutesDisplay.innerHTML = this.displayMinutes();
+          this.elSecondsDisplay.innerHTML = this.displaySeconds();
+        });
+
         this.elReset.addEventListener('click', () => {
           if (this.roomToken) {
             this.reset();
