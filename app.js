@@ -25,8 +25,50 @@ app.get('/', (req, res) => {
       })),
     h('body.d-flex.flex-column.h-100',
       h('.main',
-          h('div.container-fluid.mt-3', 
-            h('a.btn.btn-outline-primary.btn-lg.btn-block', { href: '/rooms/new' }, 'Create new timer'))))).outerHTML);
+        h('.space', { style: "margin: 30px auto;" }),
+        h('.container',
+          h('.jumbotron',
+            h('h1.display-2', 'Lightning Talk Timer'),
+            h('p.lead', '発表者は簡単に時間を把握できるように、司会者は時間を管理できるようになります'),
+            h('p', 
+              h('a.btn.btn-outline-primary.btn-lg.btn-block.mt-5', { href: '/rooms/new' }, 'タイマーを作成する')))),
+
+        h('.container',
+          h('.card.my-3',
+            h('.card-header', '機能 1'),
+            h('.card-body',
+              h('h5.card-title', '開始・停止が同期するタイマー'),
+              h('p.card-text', 'タイマーの操作がほかのユーザーが見ているタイマーへ同期します。司会者がタイマーを操作することで、発表者や視聴者は手元で残り時間を把握しやすくなります。')))),
+
+        h('.container',
+          h('.card.my-3',
+            h('.card-header', '機能 2'),
+            h('.card-body',
+              h('h5.card-title', 'タイマーをスタート・リセットできるのはオーナーだけ'),
+              h('p.card-text', 'URL にトークンが付いているタイマーを開いている人はオーナーです。それ以外の人はタイマーをスタート・リセットできないので、司会・進行を乱されることがありません。')))),   
+
+        h('.container',
+          h('.card.my-3',
+            h('.card-header', '機能 3'),
+            h('.card-body',
+              h('h5.card-title', '手元のスマホでも、会場の大型モニタでも見やすい文字盤'),
+              h('p.card-text', '文字サイズを vw 単位を使って指定することで、どんな大きさのモニタでも文字が画面いっぱいに表示されます。')))),
+
+        h('.container', 
+          h('.card.my-3', 
+            h('.card-header', '機能 4'),
+            h('.card-body', 
+              h('h5.card-title', 'スクリーンセーバーやオートスリープをブロック'),
+              h('p.card-text', 'タイマーの動作中に、背景で小さな動画を再生することでスクリーンセーバーやオートスリープを防ぎます。タイマーが表示されなくなる、操作できなくなる、などのトラブルを防ぎます。')))),
+
+        h('.footer.mt-auto.py-3', { style: "background-color: white;" },
+          h('div.container',
+            h('span', '@ohataken. '),
+            h('a', { href: '' }, 'GitHub'), 
+            h('span', ', '),
+            h('a', { href: '' }, 'Twitter'),),
+
+          )))).outerHTML);
 });
 
 app.get('/rooms/new', (req, res) => {
