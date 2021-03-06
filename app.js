@@ -64,9 +64,9 @@ app.get('/', (req, res) => {
         h('.footer.mt-auto.py-3', { style: "background-color: white;" },
           h('div.container',
             h('span', '@ohataken. '),
-            h('a', { href: '' }, 'GitHub'), 
+            h('a', { href: 'https://github.com/ohataken/' }, 'GitHub'), 
             h('span', ', '),
-            h('a', { href: '' }, 'Twitter'),),
+            h('a', { href: 'https://twitter.com/ohataken' }, 'Twitter'),),
 
           )))).outerHTML);
 });
