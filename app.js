@@ -132,10 +132,15 @@ app.get('/rooms/:roomId', async (req, res) => {
             h('span#seconds', { style: 'letter-spacing: -4vw;' }, '00')))),
       h('.footer.mt-auto.py-3', { style: "background-color: white;" },
         h('div.container-fluid.mt-3',
-          h('.btn-group.mx-auto', { role: 'group' },
-            h('button#start.btn.btn-success.btn-lg', { type: 'button' }, 'Start'),
-            h('button#reset.btn.btn-danger.btn-lg', { type: 'button' }, 'Reset'),
-            h('button#fullscreen.btn.btn-primary.btn-lg', { type: 'button' }, 'Fullscreen')))))).outerHTML);
+          h('.btn-toolbar', 
+            h('.btn-group.mx-auto', { role: 'group' },
+              h('button#start.btn.btn-success.btn-lg', { type: 'button' }, 'Start'),
+              h('button#reset.btn.btn-danger.btn-lg', { type: 'button' }, 'Reset'),
+              h('button#fullscreen.btn.btn-primary.btn-lg', { type: 'button' }, 'Fullscreen'),),
+            h('.input-group', 
+              h('.input-group-prepend',
+                h('.input-group-text', 'Share'),), 
+                h('input.form-control.form-control-lg', { type: 'text', value: `https://lightning-talk-remote-timer.herokuapp.com/rooms/${req.params.roomId}`, readonly: '' })), ), )))).outerHTML);
 });
 
 app.get('/api/rooms/:roomId', async (req, res) => {
