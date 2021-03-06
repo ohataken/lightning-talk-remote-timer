@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
         h('.container',
           h('.jumbotron',
             h('h1.display-2', 'Lightning Talk Timer'),
-            h('p.lead', '発表者は簡単に時間を把握できるように、司会者は時間を管理できるようになります'),
+            h('p.lead', '発表者は簡単に時間を把握できるように、司会者は時間を管理できるようになります。'),
             h('p', 
               h('a.btn.btn-outline-primary.btn-lg.btn-block.mt-5', { href: '/rooms/new' }, 'タイマーを作成する')))),
 
