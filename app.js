@@ -19,8 +19,10 @@ app.get('/', (req, res) => {
       h('title', 'Lightning Talk Timer'),
       h('meta', { charset: 'utf-8' }),
       h('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }),
-      h('meta', { name: 'description', content: 'Lightning Talk Remote Timer' }),
+      h('meta', { name: 'description', content: 'Lightning Talk Timer' }),
       h('meta', { name: 'twitter:card', content: 'summary_large_image' }),
+      h('meta', { name: 'twitter:title', content: 'Lightning Talk Timer' }),
+      h('meta', { name: 'twitter:image', content: 'https://lightning-talk-remote-timer.herokuapp.com/20210307044226_demo.jpg' }),
       h('link', {
         rel: 'stylesheet',
         integrity: 'sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T',
@@ -118,6 +120,8 @@ app.get('/rooms/:roomId', async (req, res) => {
       h('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }),
       h('meta', { name: 'description', content: 'Lightning Talk Remote Timer' }),
       h('meta', { name: 'twitter:card', content: 'summary_large_image' }),
+      h('meta', { name: 'twitter:title', content: 'Lightning Talk Timer' }),
+      h('meta', { name: 'twitter:image', content: 'https://lightning-talk-remote-timer.herokuapp.com/20210307044226_demo.jpg' }),
       h('link', {
         rel: 'stylesheet',
         integrity: 'sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T',
