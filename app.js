@@ -137,14 +137,14 @@ app.get('/rooms/:roomId', async (req, res) => {
       h('.footer.mt-auto.py-3', { style: "background-color: white;" },
         h('div.container-fluid.mt-3',
           h('.btn-toolbar', 
-            h('.btn-group.mx-auto', { role: 'group' },
-              h('button#start.btn.btn-success.btn-lg', { type: 'button' }, 'Start'),
-              h('button#reset.btn.btn-danger.btn-lg', { type: 'button' }, 'Reset'),
-              h('button#fullscreen.btn.btn-primary.btn-lg', { type: 'button' }, 'Fullscreen'),),
-            h('.input-group', 
+            h('.input-group.mx-5', 
               h('.input-group-prepend',
                 h('.input-group-text', 'Share'),), 
-                h('input.form-control.form-control-lg', { type: 'text', value: `https://lightning-talk-remote-timer.herokuapp.com/rooms/${req.params.roomId}`, readonly: '' })), ), )))).outerHTML);
+                h('input.form-control.form-control-lg', { type: 'text', value: `https://lightning-talk-remote-timer.herokuapp.com/rooms/${req.params.roomId}`, readonly: '' })),
+            h('.btn-group', { role: 'group' },
+              h('button#start.btn.btn-success.btn-lg', { type: 'button' }, 'Start'),
+              h('button#reset.btn.btn-danger.btn-lg', { type: 'button' }, 'Reset'),
+              h('button#fullscreen.btn.btn-primary.btn-lg', { type: 'button' }, 'Fullscreen'),), ), )))).outerHTML);
 });
 
 app.get('/api/rooms/:roomId', async (req, res) => {
