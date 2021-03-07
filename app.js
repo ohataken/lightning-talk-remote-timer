@@ -140,7 +140,7 @@ app.get('/rooms/:roomId', async (req, res) => {
             h('.input-group.mx-5', 
               h('.input-group-prepend',
                 h('.input-group-text', 'Share'),), 
-                h('input.form-control.form-control-lg', { type: 'text', value: `https://lightning-talk-remote-timer.herokuapp.com/rooms/${req.params.roomId}`, readonly: '' })),
+                h('input.form-control.form-control-lg', { type: 'text', value: `https://lightning-talk-remote-timer.herokuapp.com/rooms/${req.params.roomId}`, })),
             h('.btn-group', { role: 'group' },
               h('button#start.btn.btn-success.btn-lg', { type: 'button' }, 'Start'),
               h('button#reset.btn.btn-danger.btn-lg', { type: 'button' }, 'Reset'),
