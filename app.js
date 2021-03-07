@@ -35,6 +35,8 @@ app.get('/', (req, res) => {
             h('h1.display-2', 'Lightning Talk Timer'),
             h('p.lead', '発表者は簡単に時間を把握できるように、司会者は時間を管理できるようになります。'),
             h('p', 
+              h('img.img-fluid', { src: '/20210307044226_demo.jpg' })),
+            h('p', 
               h('a.btn.btn-outline-primary.btn-lg.btn-block.mt-5', { href: '/rooms/new' }, '5分のタイマーを作成する')),
             h('p', 
               h('a.btn.btn-outline-primary.btn-lg.btn-block.mt-5', { href: '/rooms/new?minutes=3' }, '3分のタイマーを作成する')))),
