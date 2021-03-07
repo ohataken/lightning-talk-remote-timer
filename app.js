@@ -35,7 +35,9 @@ app.get('/', (req, res) => {
             h('h1.display-2', 'Lightning Talk Timer'),
             h('p.lead', '発表者は簡単に時間を把握できるように、司会者は時間を管理できるようになります。'),
             h('p', 
-              h('a.btn.btn-outline-primary.btn-lg.btn-block.mt-5', { href: '/rooms/new' }, 'タイマーを作成する')))),
+              h('a.btn.btn-outline-primary.btn-lg.btn-block.mt-5', { href: '/rooms/new' }, '5分のタイマーを作成する')),
+            h('p', 
+              h('a.btn.btn-outline-primary.btn-lg.btn-block.mt-5', { href: '/rooms/new?minutes=3' }, '3分のタイマーを作成する')))),
 
         h('.container',
           h('.card.my-3',
@@ -92,6 +94,8 @@ app.get('/rooms/new', (req, res) => {
     key: crypto.randomBytes(16).toString('hex'),
     token: crypto.randomBytes(16).toString('hex'),
     state: 'READY',
+    minutes: parseInt(req?.query.minutes),
+    seconds: parseInt(req?.query.seconds),
     targetTime: new Date().getTime(),
   });
 
